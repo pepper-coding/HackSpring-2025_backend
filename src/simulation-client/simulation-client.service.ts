@@ -71,7 +71,7 @@ export interface SimulationResponse {
 @Injectable()
 export class SimulationClientService {
   private readonly logger = new Logger(SimulationClientService.name);
-  private readonly apiUrl = 'http://localhost:8000';
+  private readonly apiUrl = process.env.PYTHON_API_URL || 'http://localhost:8000';
 
   constructor(private httpService: HttpService) {}
 
