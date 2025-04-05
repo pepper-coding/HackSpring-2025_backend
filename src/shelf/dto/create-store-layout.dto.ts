@@ -1,15 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { 
-  IsString, 
-  IsNumber, 
-  IsArray, 
-  IsObject, 
-  IsDateString, 
-  ValidateNested 
+import {
+  IsString,
+  IsNumber,
+  IsArray,
+  IsObject,
+  IsDateString,
+  ValidateNested,
 } from 'class-validator';
 
-class Position3DDTO {
+class Position3D_DTO {
   @ApiProperty({ example: -1 })
   @IsNumber()
   x: number;
@@ -23,7 +23,7 @@ class Position3DDTO {
   z: number;
 }
 
-class StoreSizeDTO {
+class StoreSize_DTO {
   @ApiProperty({ example: 10 })
   @IsNumber()
   width: number;
@@ -37,7 +37,7 @@ class StoreSizeDTO {
   height: number;
 }
 
-class ShelfDTO {
+class Shelf_DTO {
   @ApiProperty({ example: 'small-veg-1' })
   @IsString()
   id: string;
@@ -49,8 +49,8 @@ class ShelfDTO {
   @ApiProperty()
   @IsObject()
   @ValidateNested()
-  @Type(() => Position3DDTO)
-  position: Position3DDTO;
+  @Type(() => Position3D_DTO)
+  position: Position3D_DTO;
 
   @ApiProperty({ example: 0 })
   @IsNumber()
@@ -63,22 +63,26 @@ class ShelfDTO {
   @ApiProperty({ example: 0 })
   @IsNumber()
   interactions: number;
+
+  @ApiProperty({ example: 0 })
+  @IsNumber()
+  discount: number;
 }
 
 export class CreateStoreLayoutDTO {
   @ApiProperty()
   @IsObject()
   @ValidateNested()
-  @Type(() => StoreSizeDTO)
-  storeSize: StoreSizeDTO;
+  @Type(() => StoreSize_DTO)
+  storeSize: StoreSize_DTO;
 
-  @ApiProperty({ type: [ShelfDTO] })
+  @ApiProperty({ type: [Shelf_DTO] })
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => ShelfDTO)
-  shelves: ShelfDTO[];
+  @Type(() => Shelf_DTO)
+  shelves: Shelf_DTO[];
 
   @ApiProperty({ example: '2025-04-05T10:00:42.441Z' })
   @IsDateString()
   createdAt: string;
-} 
+}

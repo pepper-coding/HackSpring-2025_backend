@@ -1,8 +1,16 @@
 // src/shelf/shelf.controller.ts
-import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Put,
+  Delete,
+} from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ShelfService } from './shelf.service';
-import { CreateShelfDto, UpdateShelfDto, CreateStoreLayoutDTO } from './dto';
+import { CreateShelfDto, UpdateShelfDto } from './dto';
 
 @ApiTags('shelves')
 @Controller('shelves')
@@ -11,16 +19,12 @@ export class ShelfController {
 
   @Post()
   @ApiOperation({ summary: 'Create a new shelf' })
-  @ApiResponse({ status: 201, description: 'The shelf has been successfully created.' })
+  @ApiResponse({
+    status: 201,
+    description: 'The shelf has been successfully created.',
+  })
   create(@Body() createShelfDto: CreateShelfDto) {
     return this.shelfService.create(createShelfDto);
-  }
-
-  @Post('layout')
-  @ApiOperation({ summary: 'Create or update store layout with shelves' })
-  @ApiResponse({ status: 201, description: 'The store layout has been successfully created.' })
-  createLayout(@Body() createStoreLayoutDto: CreateStoreLayoutDTO) {
-    return this.shelfService.createLayout(createStoreLayoutDto);
   }
 
   @Get()
@@ -32,30 +36,18 @@ export class ShelfController {
   @Get(':id')
   @ApiOperation({ summary: 'Get a shelf by id' })
   findOne(@Param('id') id: string) {
-    return this.shelfService.findOne(+id);
-  }
-
-  @Get('store/:storeId')
-  @ApiOperation({ summary: 'Get shelves by store id' })
-  findByStore(@Param('storeId') storeId: string) {
-    return this.shelfService.findByStore(+storeId);
-  }
-
-  @Get('section/:sectionId')
-  @ApiOperation({ summary: 'Get shelves by section id' })
-  findBySection(@Param('sectionId') sectionId: string) {
-    return this.shelfService.findBySection(+sectionId);
+    return this.shelfService.findOne(id);
   }
 
   @Put(':id')
   @ApiOperation({ summary: 'Update a shelf' })
   update(@Param('id') id: string, @Body() updateShelfDto: UpdateShelfDto) {
-    return this.shelfService.update(+id, updateShelfDto);
+    return this.shelfService.update(id, updateShelfDto);
   }
 
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a shelf' })
   remove(@Param('id') id: string) {
-    return this.shelfService.remove(+id);
+    return this.shelfService.delete(id);
   }
 }

@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,185 +7,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Модель магазина
-model Store {
-  id           Int       @id @default(autoincrement())
-  name         String
-  address      String?
-  coordinateX  Int
-  coordinateY  Int
-  width        Int
-  height       Int
-  workingHours Json      // JSON объект с часами работы
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
-  sections     Section[]
-  shelves      Shelf[]
-  cashiers     Cashier[]
+model Preset {
+  id             String   @id @default(uuid())
+  name           String
+  width          Int
+  height         Int
+  customerNumber Int
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  shelves        Shelf[]
 }
 
-// Модель секций/зон магазина
-model Section {
-  id          Int      @id @default(autoincrement())
-  name        String
-  coordinateX Int
-  coordinateY Int
-  width       Int
-  height      Int
-  type        String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  storeId     Int
-  store       Store    @relation(fields: [storeId], references: [id])
-  shelves     Shelf[]
-}
-
-// Модель стеллажей
 model Shelf {
-  id          Int       @id @default(autoincrement())
-  name        String
-  type        String    // тип стеллажа
-  capacity    Int       // вместимость товаров
-  coordinateX Int
-  coordinateY Int
-  width       Int
-  height      Int
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  storeId     Int
-  store       Store     @relation(fields: [storeId], references: [id])
-  sectionId   Int?
-  section     Section?  @relation(fields: [sectionId], references: [id])
-  products    Product[]
-}
-
-// Модель касс
-model Cashier {
-  id               Int        @id @default(autoincrement())
-  number           Int
-  coordinateX      Int
-  coordinateY      Int
-  isWorking        Boolean    @default(true)
-  serviceTime      Int        // среднее время обслуживания в секундах
-  createdAt        DateTime   @default(now())
-  updatedAt        DateTime   @updatedAt
-  storeId          Int
-  store            Store      @relation(fields: [storeId], references: [id])
-  queueEvents      Queue[]
-  checkoutEvents   Checkout[]
-}
-
-// Модель категорий товаров
-model Category {
-  id          Int       @id @default(autoincrement())
-  name        String
-  description String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  products    Product[]
-}
-
-// Модель товаров
-model Product {
-  id          Int       @id @default(autoincrement())
-  name        String
-  price       Float
-  popularity  Float     @default(0) // рейтинг популярности товара
-  discount    Float     @default(0) // текущая скидка на товар
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  categoryId  Int
-  category    Category  @relation(fields: [categoryId], references: [id])
-  shelfId     Int?
-  shelf       Shelf?    @relation(fields: [shelfId], references: [id])
-  purchases   Purchase[]
-}
-
-// Модель покупателей
-model Customer {
-  id             Int        @id @default(autoincrement())
-  profiles       Json       // Профили поведения в формате JSON
-  budget         Float
-  preferences    Json       // Предпочтения категорий в формате JSON
-  visitFrequency Float      @default(1.0) // Частота посещений (раз в неделю)
-  createdAt      DateTime   @default(now())
-  updatedAt      DateTime   @updatedAt
-  purchases      Purchase[]
-  queueEvents    Queue[]
-  checkoutEvents Checkout[]
-}
-
-// Модель для отслеживания перемещений покупателей
-model CustomerMovement {
-  id         Int      @id @default(autoincrement())
-  customerId Int
-  coordinateX Int
-  coordinateY Int
-  timestamp  DateTime @default(now())
-}
-
-// Модель покупок
-model Purchase {
-  id         Int      @id @default(autoincrement())
-  customerId Int
-  customer   Customer @relation(fields: [customerId], references: [id])
-  productId  Int
-  product    Product  @relation(fields: [productId], references: [id])
-  quantity   Int
-  price      Float    // цена на момент покупки
-  timestamp  DateTime @default(now())
-  checkoutId Int?
-  checkout   Checkout? @relation(fields: [checkoutId], references: [id])
-}
-
-// Модель очередей
-model Queue {
-  id           Int      @id @default(autoincrement())
-  cashierId    Int
-  cashier      Cashier  @relation(fields: [cashierId], references: [id])
-  customerId   Int
-  customer     Customer @relation(fields: [customerId], references: [id])
-  position     Int      // позиция в очереди
-  enterTime    DateTime @default(now())
-  exitTime     DateTime?
-}
-
-// Модель расчетов на кассе
-model Checkout {
-  id         Int        @id @default(autoincrement())
-  cashierId  Int
-  cashier    Cashier    @relation(fields: [cashierId], references: [id])
-  customerId Int
-  customer   Customer   @relation(fields: [customerId], references: [id])
-  startTime  DateTime   @default(now())
-  endTime    DateTime?
-  totalAmount Float
-  purchases  Purchase[]
-}
-
-// Модель акций и скидок
-model Promotion {
-  id          Int      @id @default(autoincrement())
-  name        String
-  description String?
-  discountPercentage Float
-  startDate   DateTime
-  endDate     DateTime
-  targetCategories Json?   // ID категорий в формате JSON
-  targetProducts   Json?   // ID товаров в формате JSON
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
-
-// Модель событий в магазине
-model StoreEvent {
-  id          Int      @id @default(autoincrement())
-  type        String   // тип события (поломка кассы, новый товар и т.д.)
-  description String?
-  startTime   DateTime @default(now())
-  endTime     DateTime?
-  affectedIds Json?    // ID затронутых объектов в формате JSON
-  status      String   // статус события (active, resolved)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        String   @id @default(uuid())
+  name      String
+  type      String
+  discount  Int      @default(0)
+  x         Int
+  y         Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  presetId  String
+  preset    Preset   @relation(fields: [presetId], references: [id])
 }

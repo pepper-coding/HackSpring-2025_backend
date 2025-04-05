@@ -5,11 +5,9 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  
-  // Включаем CORS
+
   app.enableCors();
-  
-  // Настраиваем глобальную валидацию
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -17,7 +15,6 @@ async function bootstrap() {
     }),
   );
 
-  // Настраиваем Swagger
   const config = new DocumentBuilder()
     .setTitle('Симуляция магазина API')
     .setDescription('API для симуляции работы магазина')
@@ -26,7 +23,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  // Запускаем приложение
   await app.listen(process.env.PORT ?? 3000);
   console.log(`Приложение запущено на порту: ${process.env.PORT ?? 3000}`);
 }
