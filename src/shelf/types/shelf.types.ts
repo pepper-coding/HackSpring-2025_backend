@@ -4,8 +4,8 @@ export enum ShelfType {
   PRODUCE = 'produce',
   MEAT = 'meat',
   VEGETABLES = 'vegetables',
-  GENERAL = 'general',
   WALL = 'wall',
+  CASHIER = 'cashier',
 }
 
 export enum ShelfSize {

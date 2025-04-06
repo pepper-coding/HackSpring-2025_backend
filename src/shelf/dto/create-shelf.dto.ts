@@ -16,8 +16,8 @@ export class CreateShelfDto {
       'produce',
       'meat',
       'vegetables',
-      'general',
       'wall',
+      'cashier'
     ],
     example: 'dairy',
   })
