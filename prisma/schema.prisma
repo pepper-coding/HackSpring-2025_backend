@@ -12,6 +12,7 @@ model Preset {
   name           String
   width          Int
   height         Int
+  length         Int
   customerNumber Int
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt

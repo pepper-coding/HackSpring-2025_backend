@@ -1,4 +1,3 @@
-// src/store/dto/create-store.dto.ts
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsInt, IsNotEmpty } from 'class-validator';
 
@@ -15,6 +14,10 @@ export class CreatePresetDto {
   @ApiProperty({ description: 'Height of the store' })
   @IsInt()
   height: number;
+
+  @ApiProperty({ description: 'Length of the store' })
+  @IsInt()
+  length: number;
 
   @ApiProperty({ description: 'Customer number of the store' })
   @IsInt()

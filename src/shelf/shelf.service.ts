@@ -31,17 +31,16 @@ export class ShelfService {
 
   async update(id: string, updateShelfDto: UpdateShelfDto) {
     const shelf = await this.prisma.shelf.findUnique({ where: { id } });
-  
+
     if (!shelf) {
       throw new NotFoundException(`Shelf with id ${id} not found`);
     }
-  
+
     return this.prisma.shelf.update({
       where: { id },
       data: updateShelfDto,
     });
   }
-  
 
   async updateMany(
     updateShelfDto: Record<number, UpdateShelfDto & { id: string }>,
@@ -53,7 +52,6 @@ export class ShelfService {
     }
     return responses;
   }
-  
 
   async delete(id: string) {
     return this.prisma.shelf.delete({
