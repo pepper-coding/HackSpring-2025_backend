@@ -24,10 +24,10 @@ model Shelf {
   type         String
   size         String
   discount     Int      @default(0)
-  x            Int
-  y            Int
+  x            Float
+  y            Float
   interactions Int      @default(0)
-  rotation     Int      @default(0)
+  rotation     Float    @default(0)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   presetId     String
