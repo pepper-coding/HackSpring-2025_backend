@@ -71,29 +71,39 @@ export interface SimulationResponse {
 @Injectable()
 export class SimulationClientService {
   private readonly logger = new Logger(SimulationClientService.name);
-  private readonly apiUrl = process.env.PYTHON_API_URL || 'http://localhost:8000';
+  private readonly apiUrl =
+    process.env.PYTHON_API_URL || 'http://localhost:8000';
 
   constructor(private httpService: HttpService) {}
 
   async simulate(request: SimulationRequestDto): Promise<SimulationResponse> {
-    this.logger.log(`Sending simulation request with ${request.config.shelves.length} shelves`);
-    
+    this.logger.log(
+      `Sending simulation request with ${request.config.shelves.length} shelves`,
+    );
+
     try {
       const response = await firstValueFrom(
-        this.httpService.post<SimulationResponse>(`${this.apiUrl}/simulate`, request).pipe(
-          map(response => response.data),
-          catchError(error => {
-            this.logger.error(`Failed to simulate: ${error.message}`, error.stack);
-            throw new Error(`Failed to simulate: ${error.message}`);
-          })
-        )
+        this.httpService
+          .post<SimulationResponse>(`${this.apiUrl}/simulate`, request)
+          .pipe(
+            map((response) => response.data),
+            catchError((error) => {
+              this.logger.error(
+                `Failed to simulate: ${error.message}`,
+                error.stack,
+              );
+              throw new Error(`Failed to simulate: ${error.message}`);
+            }),
+          ),
       );
-      
-      this.logger.log(`Simulation completed with ${response.visitors.length} visitors`);
+
+      this.logger.log(
+        `Simulation completed with ${response.visitors.length} visitors`,
+      );
       return response;
     } catch (error) {
       this.logger.error(`Error during simulation: ${error.message}`);
       throw error;
     }
   }
-} 
+}

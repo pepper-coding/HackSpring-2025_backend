@@ -14,4 +14,4 @@ import { SimulationClientController } from './simulation-client.controller';
   providers: [SimulationClientService],
   exports: [SimulationClientService],
 })
-export class SimulationClientModule {} 
+export class SimulationClientModule {}

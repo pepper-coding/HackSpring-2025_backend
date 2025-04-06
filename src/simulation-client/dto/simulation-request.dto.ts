@@ -1,6 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsString, IsNumber, IsArray, IsObject, IsOptional, IsBoolean, ValidateNested } from 'class-validator';
+import {
+  IsString,
+  IsNumber,
+  IsArray,
+  IsObject,
+  IsOptional,
+  IsBoolean,
+  ValidateNested,
+} from 'class-validator';
 
 export class PositionDto {
   @ApiProperty({ example: -1 })
@@ -101,12 +109,20 @@ export class SimulationRequestDto {
   @IsOptional()
   promotions?: string[];
 
-  @ApiProperty({ type: [String], required: false, example: ['bakery', 'vegetables'] })
+  @ApiProperty({
+    type: [String],
+    required: false,
+    example: ['bakery', 'vegetables'],
+  })
   @IsArray()
   @IsOptional()
   categories?: string[];
 
-  @ApiProperty({ type: Object, required: false, example: { 'small-veg-1': 0.15 } })
+  @ApiProperty({
+    type: Object,
+    required: false,
+    example: { 'small-veg-1': 0.15 },
+  })
   @IsObject()
   @IsOptional()
   shelfDiscounts?: Record<string, number>;
@@ -115,4 +131,4 @@ export class SimulationRequestDto {
   @IsBoolean()
   @IsOptional()
   prefersDiscounts?: boolean;
-} 
+}
