@@ -15,6 +15,8 @@ async function bootstrap() {
     }),
   );
 
+  app.setGlobalPrefix('api');
+
   const config = new DocumentBuilder()
     .setTitle('Симуляция магазина API')
     .setDescription('API для симуляции работы магазина')

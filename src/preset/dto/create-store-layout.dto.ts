@@ -9,20 +9,6 @@ import {
   ValidateNested,
 } from 'class-validator';
 
-class Position3D_DTO {
-  @ApiProperty({ example: -1 })
-  @IsNumber()
-  x: number;
-
-  @ApiProperty({ example: 0 })
-  @IsNumber()
-  y: number;
-
-  @ApiProperty({ example: 2 })
-  @IsNumber()
-  z: number;
-}
-
 class StoreSize_DTO {
   @ApiProperty({ example: 10 })
   @IsNumber()
@@ -46,11 +32,13 @@ class Shelf_DTO {
   @IsString()
   type: string;
 
-  @ApiProperty()
-  @IsObject()
-  @ValidateNested()
-  @Type(() => Position3D_DTO)
-  position: Position3D_DTO;
+  @ApiProperty({ example: 0 })
+  @IsNumber()
+  x: number;
+
+  @ApiProperty({ example: 0 })
+  @IsNumber()
+  y: number;
 
   @ApiProperty({ example: 0 })
   @IsNumber()

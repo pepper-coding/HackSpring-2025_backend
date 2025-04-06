@@ -29,11 +29,21 @@ export class ShelfService {
     });
   }
 
-  async update(id: string, updateShelfDto: UpdateShelfDto) {
+  update(id: string, updateShelfDto: UpdateShelfDto) {
     return this.prisma.shelf.update({
       where: { id },
       data: updateShelfDto,
     });
+  }
+
+  async updateMany(
+    updateShelfDto: Record<number, UpdateShelfDto & { id: string }>,
+  ) {
+    const responses = [];
+    for (const shelf of Object.values(updateShelfDto)) {
+      responses.push(this.update(shelf.id, shelf));
+    }
+    return this.prisma.$transaction(responses);
   }
 
   async delete(id: string) {

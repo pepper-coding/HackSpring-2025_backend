@@ -9,6 +9,9 @@ export class PresetService {
   async create(createPresetDto: CreatePresetDto) {
     return this.prisma.preset.create({
       data: createPresetDto,
+      include: {
+        shelves: true,
+      },
     });
   }
 
@@ -33,12 +36,18 @@ export class PresetService {
     return this.prisma.preset.update({
       where: { id },
       data: updatePresetDto,
+      include: {
+        shelves: true,
+      },
     });
   }
 
   async delete(id: string) {
     return this.prisma.preset.delete({
       where: { id },
+      include: {
+        shelves: true,
+      },
     });
   }
 }

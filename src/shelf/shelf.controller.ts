@@ -39,6 +39,14 @@ export class ShelfController {
     return this.shelfService.findOne(id);
   }
 
+  @Put('preset')
+  @ApiOperation({ summary: 'Update a shelfs' })
+  updatePreset(
+    @Body() updateShelfDto: Record<number, UpdateShelfDto & { id: string }>,
+  ) {
+    return this.shelfService.updateMany(updateShelfDto);
+  }
+
   @Put(':id')
   @ApiOperation({ summary: 'Update a shelf' })
   update(@Param('id') id: string, @Body() updateShelfDto: UpdateShelfDto) {

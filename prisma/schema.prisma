@@ -19,14 +19,17 @@ model Preset {
 }
 
 model Shelf {
-  id        String   @id @default(uuid())
-  name      String
-  type      String
-  discount  Int      @default(0)
-  x         Int
-  y         Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  presetId  String
-  preset    Preset   @relation(fields: [presetId], references: [id])
+  id           String   @id @default(uuid())
+  name         String
+  type         String
+  size         String
+  discount     Int      @default(0)
+  x            Int
+  y            Int
+  interactions Int      @default(0)
+  rotation     Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  presetId     String
+  preset       Preset   @relation(fields: [presetId], references: [id])
 }

@@ -1,15 +1,17 @@
 export enum ShelfType {
-  DAIRY = "dairy",
-  BAKERY = "bakery",
-  PRODUCE = "produce",
-  MEAT = "meat",
-  VEGETABLES = "vegetables"
+  DAIRY = 'dairy',
+  BAKERY = 'bakery',
+  PRODUCE = 'produce',
+  MEAT = 'meat',
+  VEGETABLES = 'vegetables',
+  GENERAL = 'general',
+  WALL = 'wall',
 }
 
 export enum ShelfSize {
-  SMALL = "small",
-  MEDIUM = "medium",
-  LARGE = "large"
+  SMALL = 'small',
+  MEDIUM = 'medium',
+  LARGE = 'large',
 }
 
 export interface Position3D {
@@ -56,4 +58,4 @@ export interface ShelfData {
   storeId: number;
   sectionId?: number;
   position: ShelfPosition;
-} 
+}
